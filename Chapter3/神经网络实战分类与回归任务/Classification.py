@@ -1,3 +1,4 @@
+from itertools import count
 from pathlib import Path
 import requests
 import pickle
@@ -56,11 +57,12 @@ n, c = x_train.shape
 # ==============
 loss_func = F.cross_entropy
 
-
 # def model(xb):
 #     return xb.mm(weights) + bias
 #
 bs = 64
+
+
 # xb = x_train[0:bs]  # a mini-batch from x
 # yb = y_train[0:bs]
 # weights = torch.randn([784, 10], dtype = torch.float,  requires_grad = True)
@@ -161,7 +163,6 @@ train_dl, valid_dl = get_data(train_ds, valid_ds, bs)
 model, opt = get_model()
 fit(6, model, loss_func, opt, train_dl, valid_dl)
 
-
 # 验证结果
 correct = 0
 total = 0
@@ -170,4 +171,4 @@ for xb, yb in valid_dl:
     _, predicted = torch.max(outputs.data, 1)
     total += yb.size(0)
     correct += (predicted == yb).sum().item()
-print('准确率：' + str(correct / total))
+print('准确率：' + str(round((correct / total) * 100, 2)) + '%')
